@@ -41,6 +41,7 @@
 		1F04A1C4301073E200E1A278 /* DZMReadViewStatusBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F04A122301073E200E1A278 /* DZMReadViewStatusBottomView.swift */; };
 		1F04A1C5301073E200E1A278 /* ChangeSourceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F04A138301073E200E1A278 /* ChangeSourceViewModel.swift */; };
 		1F04A1C6301073E200E1A278 /* RssSourceManagerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F04A168301073E200E1A278 /* RssSourceManagerViewModel.swift */; };
+	9A9A9A9B301073E200E1A278 /* JSONDocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9A9A9A301073E200E1A278 /* JSONDocumentPicker.swift */; };
 		1F04A1C7301073E200E1A278 /* ParserStageContextV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F04A097301073E200E1A278 /* ParserStageContextV2.swift */; };
 		1F04A1C8301073E200E1A278 /* FontFilePickers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F04A18E301073E200E1A278 /* FontFilePickers.swift */; };
 		1F04A1C9301073E200E1A278 /* BookTocViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F04A060301073E200E1A278 /* BookTocViewModel.swift */; };
@@ -506,6 +507,7 @@
 		1F04A166301073E200E1A278 /* RssArticlesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RssArticlesViewModel.swift; sourceTree = "<group>"; };
 		1F04A167301073E200E1A278 /* RssReaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RssReaderViewModel.swift; sourceTree = "<group>"; };
 		1F04A168301073E200E1A278 /* RssSourceManagerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RssSourceManagerViewModel.swift; sourceTree = "<group>"; };
+	9A9A9A9A301073E200E1A278 /* JSONDocumentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDocumentPicker.swift; sourceTree = "<group>"; };
 		1F04A16A301073E200E1A278 /* RssArticlesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RssArticlesView.swift; sourceTree = "<group>"; };
 		1F04A16B301073E200E1A278 /* RssReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RssReaderView.swift; sourceTree = "<group>"; };
 		1F04A16C301073E200E1A278 /* RssSourceManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RssSourceManagerView.swift; sourceTree = "<group>"; };
@@ -1296,6 +1298,7 @@
 				1F04A16A301073E200E1A278 /* RssArticlesView.swift */,
 				1F04A16B301073E200E1A278 /* RssReaderView.swift */,
 				1F04A16C301073E200E1A278 /* RssSourceManagerView.swift */,
+				9A9A9A9A301073E200E1A278 /* JSONDocumentPicker.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1887,6 +1890,7 @@
 				1F04A21C301073E200E1A278 /* ThemeSupport.swift in Sources */,
 				1F04A21D301073E200E1A278 /* ConcurrentRateLimiter.swift in Sources */,
 				1F04A21E301073E200E1A278 /* RssSourceManagerView.swift in Sources */,
+				9A9A9A9B301073E200E1A278 /* JSONDocumentPicker.swift in Sources */,
 				1F04A21F301073E200E1A278 /* ThemeManagementView.swift in Sources */,
 				1F04A220301073E200E1A278 /* BundledThemeCatalog.swift in Sources */,
 				1F04A221301073E200E1A278 /* EPUBParser.swift in Sources */,

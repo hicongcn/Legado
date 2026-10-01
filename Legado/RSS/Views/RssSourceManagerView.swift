@@ -75,10 +75,14 @@ struct RssSourceManagerView: View {
                     )
                 }
             }
-            .fileImporter(isPresented: $showFileImporter, allowedContentTypes: [.json, .plainText, .text]) { result in
-                guard case .success(let url) = result else { return }
-                Task {
-                    await viewModel.importFromFile(url)
+            .sheet(isPresented: $showFileImporter) {
+                JSONDocumentPicker { url in
+                    showFileImporter = false
+                    Task {
+                        await viewModel.importFromFile(url)
+                    }
+                } onCancel: {
+                    showFileImporter = false
                 }
             }
             .alert("提示", isPresented: $viewModel.showAlert) {
