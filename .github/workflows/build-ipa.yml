@@ -10,8 +10,11 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Pods
-      run: pod install --repo-update
+    - name: Pods (patch Podfile target name)
+      run: |
+        # 仓库自带 Podfile 引用了不存在的 target 名，原地修正后安装
+        sed -i '' "s/target 'LegadoTests'/target 'swiftLegadoTests'/" Podfile
+        pod install
 
     - name: Build (device, unsigned)
       run: |
@@ -22,15 +25,18 @@ jobs:
           -configuration Release \
           -destination 'generic/platform=iOS' \
           -derivedDataPath build/DD \
-          CODE_SIGNING_ALLOWED=NO CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
+          CODE_SIGNING_ALLOWED=NO CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO \
+          2>&1 | tail -40
 
     - name: Package IPA
+      if: success()
       run: |
         mkdir -p ipa/Payload
         cp -R "build/DD/Build/Products/Release-iphoneos/Legado.app" ipa/Payload/
         cd ipa && zip -qry Legado-unsigned.ipa Payload
 
     - uses: actions/upload-artifact@v4
+      if: success()
       with:
         name: Legado-iOS-unsigned-ipa
         path: ipa/Legado-unsigned.ipa
