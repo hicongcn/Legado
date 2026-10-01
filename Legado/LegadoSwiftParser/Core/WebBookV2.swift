@@ -55,7 +55,6 @@ nonisolated final class WebBookV2 {
     // V2 runtime 是纯解析编排对象，释放时不需要回到默认 MainActor。
     // 批量 compare 会短时间创建/销毁大量 WebBookV2；显式 nonisolated 可避开
     // Swift 并发运行时在析构路径上的 TaskLocal 清理坏释放。
-    nonisolated deinit {}
 
     func shutdown() {
         requestExecutor.shutdown()

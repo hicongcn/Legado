@@ -218,7 +218,6 @@ public nonisolated final class LegadoRequestTraceCollector: @unchecked Sendable 
 
     // 旧 trace collector 已不再依赖 TaskLocal，析构阶段也不应再被拉进并发运行时作用域清理。
     // 显式标成 nonisolated，避免 compare / test 高频创建时再次命中 StopLookupScope bad-free。
-    nonisolated deinit {}
 
     public func append(_ descriptor: LegadoRequestDescriptor) {
         lock.lock()
@@ -351,7 +350,7 @@ public nonisolated class HTTPClient {
         #endif
     }
 
-    nonisolated deinit {
+    deinit {
         shutdown()
     }
 

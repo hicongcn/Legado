@@ -707,7 +707,6 @@ public nonisolated class JavaScriptParser {
     // 若析构阶段被系统推回主线程，再叠加 JSContext / ObjC bridge 的释放顺序，就容易出现
     // JavaScriptCore 生命周期抖动甚至释放期 crash。显式 nonisolated 可以保持析构发生在
     // 当前调用线程，和运行时锁、bridge 清理逻辑保持一致。
-    nonisolated deinit {}
 
     // MARK: - 执行 JS
 
@@ -6414,13 +6413,15 @@ private nonisolated final class AsymmetricCryptoBridge {
     }
 
     private func transformRawWithPublicKey(secKey: SecKey?, derKey: Data, data: Data) throws -> Data {
-        let blockSize: Int
-        if let secKey {
-            let size = SecKeyGetBlockSize(secKey)
-            blockSize = size > 0 ? size : (try CC.RSA.rawCrypt(data.prefix(256), derKey: derKey).1)
-        } else {
-            blockSize = try CC.RSA.rawCrypt(data.prefix(256), derKey: derKey).1
-        }
+        // SwCrypt 5.x 没有 textbook RSA 裸运算 API，块大小直接从 SecKey 读取；
+        // 2048 位 RSA 块大小固定 256 字节，与原 rawCrypt(.1) 的 getKeySize 语义一致。
+        let blockSize: Int = {
+            if let secKey {
+                let size = SecKeyGetBlockSize(secKey)
+                if size > 0 { return size }
+            }
+            return 256
+        }()
         guard blockSize > 0, data.count >= blockSize, data.count.isMultiple(of: blockSize) else {
             throw ParserError.javascriptError("Invalid RSA raw public-key input size")
         }
@@ -6430,13 +6431,10 @@ private nonisolated final class AsymmetricCryptoBridge {
         while index < data.count {
             let endIndex = index + blockSize
             let chunk = data.subdata(in: index..<endIndex)
-            let transformed: Data
-            if let secKey,
-               SecKeyIsAlgorithmSupported(secKey, .encrypt, .rsaEncryptionRaw),
-               let rawData = SecKeyCreateEncryptedData(secKey, .rsaEncryptionRaw, chunk as CFData, nil) as Data? {
-                transformed = rawData
-            } else {
-                transformed = try CC.RSA.rawCrypt(chunk, derKey: derKey).0
+            guard let secKey,
+                  SecKeyIsAlgorithmSupported(secKey, .encrypt, .rsaEncryptionRaw),
+                  let transformed = SecKeyCreateEncryptedData(secKey, .rsaEncryptionRaw, chunk as CFData, nil) as Data? else {
+                throw ParserError.javascriptError("RSA raw encryption requires a valid SecKey")
             }
             output.append(trimLeadingZeroBytes(from: transformed))
             index = endIndex

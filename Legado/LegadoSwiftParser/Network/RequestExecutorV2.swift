@@ -34,7 +34,6 @@ nonisolated final class RequestExecutorV2 {
 
     // executor 只封装 transport 闭包与配置，不需要特定 actor 参与释放。
     // 显式 nonisolated，避免测试里批量构造/销毁 executor 时回落到并发运行时析构路径。
-    nonisolated deinit {}
 
     func shutdown() {
         httpClient.shutdown()

@@ -20,7 +20,6 @@ nonisolated final class SourceRuntimeContext: @unchecked Sendable {
     // `SourceRuntimeContext` 只持有锁和字符串，不需要任何 actor/executor 参与释放；
     // 若让它走 `swift_task_deinitOnExecutorImpl`，在当前运行时下会再次触发
     // `TaskLocal::StopLookupScope` bad-free。
-    nonisolated deinit {}
 
     var currentSourceURL: String {
         lock.lock()

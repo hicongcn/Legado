@@ -205,7 +205,6 @@ public nonisolated final class LegadoBookEngine {
 
     // Engine 只封装 V2 runtime 与 trace 句柄，不需要 actor/executor 参与析构。
     // compare 长跑中若走默认隔离析构，会在 Swift 当前运行时下触发 TaskLocal bad-free。
-    nonisolated deinit {}
 
     public nonisolated func search(
         keyword: String,
@@ -364,7 +363,6 @@ public nonisolated final class WebBook {
         )
     }
 
-    nonisolated deinit {}
 
     public func shutdown() {
         engine.shutdown()

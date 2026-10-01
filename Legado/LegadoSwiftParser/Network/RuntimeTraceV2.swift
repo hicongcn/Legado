@@ -16,7 +16,6 @@ nonisolated final class RuntimeTraceCollectorV2: @unchecked Sendable {
     // 这些 V2 trace collector 只持有锁和纯值数组，不需要回到任何 actor / executor 才能析构。
     // 在默认 MainActor 隔离工程里，若让它走并发运行时的 deinit 路径，测试阶段短生命周期创建/销毁
     // 仍可能重新撞到 `TaskLocal::StopLookupScope` 的坏释放。这里显式保持析构为 nonisolated。
-    nonisolated deinit {}
 
     func append(_ descriptor: LegadoRequestDescriptorV2) {
         lock.lock()

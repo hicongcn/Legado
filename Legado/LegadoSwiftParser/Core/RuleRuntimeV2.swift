@@ -48,7 +48,6 @@ nonisolated final class RuleRuntimeV2 {
     // Search / detail parser 会在一次请求里频繁创建短生命周期 runtime。
     // 这里持有的都是同步解析对象，不需要 executor 参与析构；显式 nonisolated 可避免
     // 默认 MainActor 隔离工程把释放阶段送进并发运行时，放大底层 TaskLocal 清理缺陷。
-    nonisolated deinit {}
 
     convenience init(stageContext: ParserStageContextV2) {
         self.init(

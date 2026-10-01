@@ -36,7 +36,6 @@ public nonisolated class AnalyzeRule {
     // AnalyzeRule 又持有 JavaScriptParser，而 compare 批量跑里这些对象经常在后台线程短生命周期创建/销毁。
     // 这里显式标记 nonisolated，避免对象释放阶段被错误拉回主线程，进而触发
     // JavaScriptCore/bridge 清理时的线程与生命周期错配。
-    nonisolated deinit {}
 
     /// Inject a `book` JS variable so init / toc / content rules can read detail semantics.
     ///

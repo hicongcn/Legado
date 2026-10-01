@@ -40,7 +40,6 @@ final class ExploreViewModel: ObservableObject {
 
     init() {}
 
-    nonisolated deinit {}
 
     func updateSources(_ allSources: [BookSource]) {
         // A library can contain hundreds of sources. Parsing every explore rule here
