@@ -25,12 +25,24 @@ jobs:
           -destination 'generic/platform=iOS' \
           -derivedDataPath build/DD \
           CODE_SIGNING_ALLOWED=NO CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO \
-          > build.log 2>&1 || true
-        grep -E "error:" build.log | grep -v "0 errors" | sort -u | head -30 || true
-        tail -5 build.log
+          > build.log 2>&1
+        tail -3 build.log
+
+    - name: Package IPA
+      if: success()
+      run: |
+        mkdir -p ipa/Payload
+        cp -R "build/DD/Build/Products/Release-iphoneos/Legado.app" ipa/Payload/
+        cd ipa && zip -qry Legado-unsigned.ipa Payload
 
     - uses: actions/upload-artifact@v4
       if: always()
+      with:
+        name: Legado-iOS-unsigned-ipa
+        path: ipa/Legado-unsigned.ipa
+
+    - uses: actions/upload-artifact@v4
+      if: failure()
       with:
         name: build-log
         path: build.log
